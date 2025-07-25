@@ -16,7 +16,7 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzK1Z4g98ZlqX
 
 export async function verifyCertificateAction(certificateNumber: string): Promise<ActionResponse> {
   // Simulate network delay to show loading state
-  await new Promise(resolve => setTimeout(resolve, 1500));
+  await new Promise(resolve => setTimeout(resolve, 500));
   
   try {
     const response = await fetch(`${GOOGLE_SCRIPT_URL}?cert=${certificateNumber}`);
@@ -33,6 +33,21 @@ export async function verifyCertificateAction(certificateNumber: string): Promis
     if (!data.name && !data.courseName && !data.date) {
         return { error: 'Certificate with this number was not found.' };
     }
+    
+    // Format date from ISO string to a simpler format like "May 14, 2024"
+    if (data.date) {
+      try {
+        data.date = new Date(data.date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+      } catch (e) {
+        console.error("Could not parse date", e);
+        // keep original date string if parsing fails
+      }
+    }
+
 
     const certificateData: CertificateDetails = {
       name: data.name,
