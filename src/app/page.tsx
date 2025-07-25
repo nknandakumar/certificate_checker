@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
-import { Search, BookOpen, Calendar, CheckCircle, Loader2, Star, User } from 'lucide-react';
+import { Search, BookOpen, Calendar, CheckCircle, Loader2, User } from 'lucide-react';
 
 function DetailRow({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string }) {
   return (
@@ -81,7 +81,7 @@ export default function CertCheckPage() {
                 <Input
                   id="certificateNumber"
                   name="certificateNumber"
-                  placeholder="e.g., 12345 or 67890"
+                  placeholder="e.g., CERT001"
                   required
                   disabled={isLoading}
                   className="text-base"
@@ -134,9 +134,8 @@ export default function CertCheckPage() {
             </CardHeader>
             <CardContent className="space-y-4 text-base">
               <DetailRow icon={User} label="Name" value={certificate.name} />
-              <DetailRow icon={BookOpen} label="Course" value={certificate.course} />
-              <DetailRow icon={Calendar} label="Completion Date" value={certificate.completionDate} />
-              <DetailRow icon={Star} label="Grade" value={certificate.grade} />
+              <DetailRow icon={BookOpen} label="Course Name" value={certificate.courseName} />
+              <DetailRow icon={Calendar} label="Date" value={certificate.date} />
             </CardContent>
           </Card>
         )}

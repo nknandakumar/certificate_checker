@@ -7,7 +7,7 @@
  *
  * It exports:
  * - `completeCertificateDetails`: An async function that takes a `CertificateDetails` object and attempts to fill in missing fields using an AI model.
- * - `CertificateDetails`: The input type definition for certificate details, including name, course, completion date, and grade.
+ * - `CertificateDetails`: The input type definition for certificate details, including name, course name, and date.
  * - `CompletedCertificateDetails`: The output type definition for the completed certificate details.
  */
 
@@ -16,18 +16,16 @@ import {z} from 'genkit';
 
 const CertificateDetailsSchema = z.object({
   name: z.string().optional().describe('The name of the certificate holder.'),
-  course: z.string().optional().describe('The name of the course completed.'),
-  completionDate: z.string().optional().describe('The date of completion of the course.'),
-  grade: z.string().optional().describe('The grade achieved in the course.'),
+  courseName: z.string().optional().describe('The name of the course completed.'),
+  date: z.string().optional().describe('The date of completion of the course.'),
 });
 
 export type CertificateDetails = z.infer<typeof CertificateDetailsSchema>;
 
 const CompletedCertificateDetailsSchema = z.object({
   name: z.string().describe('The name of the certificate holder.'),
-  course: z.string().describe('The name of the course completed.'),
-  completionDate: z.string().describe('The date of completion of the course.'),
-  grade: z.string().describe('The grade achieved in the course.'),
+  courseName: z.string().describe('The name of the course completed.'),
+  date: z.string().describe('The date of completion of the course.'),
 });
 
 export type CompletedCertificateDetails = z.infer<typeof CompletedCertificateDetailsSchema>;
@@ -45,9 +43,8 @@ const completeCertificateDetailsPrompt = ai.definePrompt({
   Given the following certificate details, fill in any missing information. If all information is present, return the data as is.  If some information is missing, use your knowledge to make a best guess about the missing data.
 
   Name: {{name}}
-  Course: {{course}}
-  Completion Date: {{completionDate}}
-  Grade: {{grade}}
+  Course Name: {{courseName}}
+  Date: {{date}}
 
   Ensure that all fields are populated in the response.
   `,
