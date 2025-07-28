@@ -11,24 +11,22 @@ export interface ActionResponse {
   error?: string;
 }
 
-const GOOGLE_SCRIPT_URL =
-  'https://script.google.com/macros/s/AKfycbzK1Z4g98ZlqXvkVDqzcMc-aW9tRgmSgxfSxfe2hYS-_ABWcUBLVvCtZraYBmiy56xgbg/exec';
 
 export async function verifyCertificateAction(certificateNumber: string): Promise<ActionResponse> {
   try {
-    const response = await fetch(`${GOOGLE_SCRIPT_URL}?cert=${certificateNumber}`);
+    const response = await fetch(`${process.env.GOOGLE_SCRIPT_URL}?cert=${certificateNumber}`);
     if (!response.ok) {
       throw new Error(`Google Sheet request failed with status ${response.status}`);
     }
 
     const data = await response.json();
-
+    console.log(data)
     if (data.error) {
       return {error: 'Certificate with this number was not found.'};
     }
 
     // The key from Google Sheets might have spaces, like "Course Name"
-    const courseName = data.courseName || data['Course Name'];
+    const courseName = data.courseName || data['courseName'];
 
     if (!data.name && !courseName && !data.date) {
       return {error: 'Certificate with this number was not found.'};
