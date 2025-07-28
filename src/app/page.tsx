@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { CompletedCertificateDetails } from '@/ai/flows/complete-certificate-details';
+import type { CertificateDetails } from './actions';
 import { verifyCertificateAction } from './actions';
 
 import { Button } from '@/components/ui/button';
@@ -26,7 +26,7 @@ function DetailRow({ icon: Icon, label, value }: { icon: React.ElementType; labe
 
 export default function CertCheckPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const [certificate, setCertificate] = useState<CompletedCertificateDetails | null>(null);
+  const [certificate, setCertificate] = useState<CertificateDetails | null>(null);
   const { toast } = useToast();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
