@@ -27,7 +27,10 @@ export async function verifyCertificateAction(certificateNumber: string): Promis
       return {error: 'Certificate with this number was not found.'};
     }
 
-    if (!data.name && !data.courseName && !data.date) {
+    // The key from Google Sheets might have spaces, like "Course Name"
+    const courseName = data.courseName || data['Course Name'];
+
+    if (!data.name && !courseName && !data.date) {
       return {error: 'Certificate with this number was not found.'};
     }
 
@@ -47,7 +50,7 @@ export async function verifyCertificateAction(certificateNumber: string): Promis
 
     const certificateData: CertificateDetails = {
       name: data.name,
-      courseName: data.courseName,
+      courseName: courseName,
       date: data.date,
     };
 
