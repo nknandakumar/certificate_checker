@@ -24,17 +24,17 @@ export async function verifyCertificateAction(certificateNumber: string): Promis
     const data = await response.json();
 
     if (data.error) {
-      return {error: data.error};
+      return {error: 'Certificate with this number was not found.'};
     }
 
-    if (!data.name || !data.courseName || !data.date) {
+    if (!data.name && !data.courseName && !data.date) {
       return {error: 'Certificate with this number was not found.'};
     }
 
     // Format date from ISO string to a simpler format like "May 14, 2024"
     if (data.date) {
       try {
-        data.date = new Date(data.date).toLocaleDateString('en-US', {
+        data.date = new Date(data.date).toLocaleDateString('en-IN', {
           year: 'numeric',
           month: 'long',
           day: 'numeric',
